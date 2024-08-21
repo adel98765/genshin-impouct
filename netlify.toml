@@ -1,3 +1,0 @@
-[build]
-  command = "npm run build" # Ou la commande de construction adaptée à votre projet
-  publish = "site" # Remplacez par le répertoire de publication de votre site
