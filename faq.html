@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> FAQ - Genshin Impouct</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #3498db;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+        }
+        nav {
+            background-color: #2980b9;
+            display: flex;
+            justify-content: center;
+            padding: 10px;
+        }
+        nav a {
+            margin: 0 15px;
+            padding: 10px 20px;
+            background-color: #2ecc71;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        nav a:hover {
+            background-color: #27ae60;
+        }
+        main {
+            margin: 20px;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .message {
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #ecf0f1;
+            border-radius: 5px;
+        }
+        .message h4 {
+            margin: 0;
+            font-size: 18px;
+        }
+        .message p {
+            margin: 5px 0;
+        }
+        input, textarea, button {
+            padding: 10px;
+            font-size: 16px;
+            margin-top: 10px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #2ecc71;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #27ae60;
+        }
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #3498db;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Messagerie - Genshin Impouct</h1>
+    </header>
+
+    <!-- Navigation -->
+    <nav>
+        <a href="accueil.html">Accueil</a>
+        <a href="convertisseur.html">Convertisseur</a>
+        <a href="contact.html">Contact</a>
+    </nav>
+
+    <main>
+        <div class="container">
+            <h2>Créer un nouveau fil de discussion :</h2>
+            <form id="message-form">
+                <input type="text" id="pseudo" placeholder="Votre pseudo" required>
+                <textarea id="message" rows="4" placeholder="Entrez votre message" required></textarea>
+                <button type="submit">Envoyer</button>
+            </form>
+        </div>
+
+        <div class="container" id="message-board">
+            <h2>Fils de discussion :</h2>
+            <!-- Les messages seront affichés ici -->
+        </div>
+    </main>
+
+    <footer>
+        <p>Genshin Impouct © 2024</p>
+    </footer>
+
+    <script>
+        // Récupération des messages depuis le localStorage
+        const messageBoard = document.getElementById('message-board');
+        let discussions = JSON.parse(localStorage.getItem('discussions')) || [];
+
+        // Fonction pour afficher les fils de discussion
+        function displayDiscussions() {
+            messageBoard.innerHTML = '<h2>Fils de discussion :</h2>';
+            discussions.forEach((discussion, index) => {
+                const messageDiv = document.createElement('div');
+                messageDiv.classList.add('message');
+                messageDiv.innerHTML = `
+                    <h4>${discussion.pseudo} :</h4>
+                    <p>${discussion.message}</p>
+                    <button onclick="reply(${index})">Répondre</button>
+                    <div id="replies-${index}">
+                        ${discussion.replies.map(reply => `
+                            <div class="message reply">
+                                <h4>${reply.pseudo} :</h4>
+                                <p>${reply.message}</p>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+                messageBoard.appendChild(messageDiv);
+            });
+        }
+
+        // Fonction pour soumettre un nouveau fil de discussion
+        document.getElementById('message-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const pseudo = document.getElementById('pseudo').value;
+            const message = document.getElementById('message').value;
+
+            discussions.push({
+                pseudo: pseudo,
+                message: message,
+                replies: []
+            });
+
+            localStorage.setItem('discussions', JSON.stringify(discussions));
+            document.getElementById('message-form').reset();
+            displayDiscussions();
+        });
+
+        // Fonction pour répondre à un message
+        function reply(index) {
+            const pseudo = prompt("Votre pseudo:");
+            const message = prompt("Votre réponse:");
+
+            if (pseudo && message) {
+                discussions[index].replies.push({ pseudo: pseudo, message: message });
+                localStorage.setItem('discussions', JSON.stringify(discussions));
+                displayDiscussions();
+            }
+        }
+
+        // Afficher les discussions au chargement de la page
+        displayDiscussions();
+    </script>
+
+</body>
+</html>
+

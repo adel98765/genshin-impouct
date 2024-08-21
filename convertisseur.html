@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Genshin Impouct - Convertisseur</title>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/brython@3.9.5/brython.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #3498db;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+        }
+        nav {
+            background-color: #2980b9;
+            display: flex;
+            justify-content: center;
+            padding: 10px;
+        }
+        nav a {
+            margin: 0 15px;
+            padding: 10px 20px;
+            background-color: #2ecc71;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        nav a:hover {
+            background-color: #27ae60;
+        }
+        main {
+            margin: 20px;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        label {
+            font-size: 18px;
+        }
+        input, button {
+            padding: 10px;
+            font-size: 16px;
+            margin-top: 10px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+        button {
+            background-color: #2ecc71;
+            color: white;
+            border: none;
+        }
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #3498db;
+            color: white;
+        }
+    </style>
+</head>
+<body onload="brython()">
+
+    <header>
+        <h1>Convertisseur primogemmes / invocations</h1>
+        <p>Convertisseur de Primogemmes en invocation et ouais fdp</p>
+    </header>
+
+    <!-- Navigation -->
+    <nav>
+        <a href="accueil.html">Accueil</a>
+        <a href="contact.html">Contact</a>
+        <a href="faq.html">FAQ</a>
+    </nav>
+
+    <main>
+        <div class="container">
+            <h2>Convertisseur Primogemmes en Invocations</h2>
+            <label for="primogemmes">Entrez le nombre de primogemmes :</label><br>
+            <input type="number" id="primogemmes" placeholder="Nombre de primogemmes" min="0"><br>
+            <button id="convertir">Convertir</button><br>
+            <p id="resultat"></p>
+        </div>
+    </main>
+
+    <main>
+        <div class="container">
+            <h2>Convertisseur Primogemmes en Invocations</h2>
+            <label for="primogemmes">Entrez le nombre de primogemmes :</label><br>
+            <input type="number" id="primogemmes" placeholder="Nombre de primogemmes" min="0"><br>
+            <button id="convertir">Convertir</button><br>
+            <p id="resultat"></p>
+        </div>
+    </main>
+
+    <footer>
+        <p>Genshin Impouct © 2024</p>
+        <a href="confidentialite.html">politique de confidentialité</a>
+    </footer>
+
+    <!-- Script Python -->
+    <script type="text/python">
+        from browser import document, alert
+
+        # Fonction de conversion
+        def primogems_en_invocations(primogems):
+            return primogems / 160
+
+        # Fonction de gestion de l'événement de clic
+        def convertir(event):
+            try:
+                primogemmes = float(document['primogemmes'].value)
+                invocations = primogems_en_invocations(primogemmes)
+                document['resultat'].text = f"{primogemmes} primogemmes = {invocations:.2f} invocations"
+            except ValueError:
+                alert("Veuillez entrer un nombre valide.")
+
+        # Associer la fonction convertir au bouton
+        document['convertir'].bind('click', convertir)
+    </script>
+
+</body>
+</html>
+
